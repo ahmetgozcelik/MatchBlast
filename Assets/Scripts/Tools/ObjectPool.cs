@@ -2,21 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- * This class will allow us to instantiate as many objects as we will need
- * while the scene is being set up so that we don't slow down the game by
- * calling Instantiate during gameplay.
- * 
- * It is preferred, but optional, to call PoolObjects first with a specified amount
- */
+/* Performans açýsýndan sahnede ihtiyacýmýz kadar obje üretir ve bunlarý tekrar tekrar kullanmamýzý saðlar. */
 public abstract class ObjectPool<T> : Singleton<ObjectPool<T>> where T : MonoBehaviour
 {
-    [SerializeField] protected T prefab;
-    private List<T> pooledObjects;
-    private int amount;
-    private bool isReady;
+    [SerializeField] protected T prefab; //Üretilecek nesne
+    private List<T> pooledObjects; //Bu nesnelerin listesi
+    private int amount; //Miktar
+    private bool isReady; //Havuz hazýr mý?
 
-    // create the pool, with a specified amount of objects
+    // Belirlenen miktarda nesne içeren havuz oluþtur
     public void PoolObjects(int amount = 0)
     {
         if(amount < 0)
@@ -25,12 +19,11 @@ public abstract class ObjectPool<T> : Singleton<ObjectPool<T>> where T : MonoBeh
         }
 
         this.amount = amount;
+
+        // Listeyi baþlat
         pooledObjects = new List<T>(amount);
 
-        // initialize the list
-        pooledObjects = new List<T>(amount);
-
-        // instantiate a bunch of T's
+        // Bir grup T'yi örnekle
         GameObject newObject;
 
         for(int i = 0; i != amount; ++i)
@@ -38,23 +31,23 @@ public abstract class ObjectPool<T> : Singleton<ObjectPool<T>> where T : MonoBeh
             newObject = Instantiate(prefab.gameObject, transform);
             newObject.SetActive(false);
 
-            // add each T to the list
+            // Her birini listeye ekle
             pooledObjects.Add(newObject.GetComponent<T>());
         }
-        // flag the pool as ready
+        // Havuz hazýr
         isReady = true;
     }
 
 
-    // get an object from the pool
+    // Havuzdan bir nesne getir
     public T GetPooledObject()
     {
-        // check if pool is ready, if not make it ready
+        // Havuzu kontrol et, hazýr deðilse hazýr hale getir.
         if (!isReady)
         {
-            PoolObjects(1);
+            PoolObjects(1); // Minimum gerekliliði yerine getirebilmesi için parametre olarak 1 verdik.
         }
-        // search through list for something not in use and return int
+        // Aktifliði kapalý olanlarý alýyoruz.
         for (int i = 0; i != amount; ++i)
         {
             if (!pooledObjects[i].isActiveAndEnabled)
@@ -63,7 +56,7 @@ public abstract class ObjectPool<T> : Singleton<ObjectPool<T>> where T : MonoBeh
             }
         }
 
-        // if we didn't find anything, make a new one
+        // Yoksa yeni bir tane üretiyoruz.
         GameObject newObject = Instantiate(prefab.gameObject, transform);
         newObject.SetActive(false);
         pooledObjects.Add(newObject.GetComponent<T>());
@@ -71,23 +64,24 @@ public abstract class ObjectPool<T> : Singleton<ObjectPool<T>> where T : MonoBeh
         return newObject.GetComponent<T>();
     }
 
-    // return an object back to the pool
+    // Kullanýlmayan nesneleri havuza tekrar döndür. Bu fonksiyon garbage collectorlarýn daha az çalýþmasýný da saðlar.
     public void ReturnObjectToPool(T toBeReturned)
     {
-        // verify the argument
+        // Eðer kullanýlýyorsa hiçbir þey yapma
         if(toBeReturned == null)
         {
             return;
         }
 
-        // make sure that the pool is ready, if not, make it ready
+        // Havuzu kontrol et, hazýr deðilse hazýr hale getir. Hazýr deðilse zaten hiç oluþturulmamýþtýr. Bu olay havuzun her zaman hazýr olmasýný garanti eder.
         if(!isReady)
         {
             PoolObjects();
             pooledObjects.Add(toBeReturned);
+            ++amount;
         }
 
-        // deactivate the gameobject
+        // Aktifliði kapat
         toBeReturned.gameObject.SetActive(false);
     }
 }

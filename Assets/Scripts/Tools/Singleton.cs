@@ -1,10 +1,8 @@
 using UnityEngine;
+
 /*
- * This is a tool that can be inherited by any Game Object script,
- * will guarantee that there will only be 1 instance allowed in the scene,
- * and provide quick access to that instance through the static getter Instance
- * 
- * If you wish to use the functionality of Awake(), use Init() instead
+ * Singleton class tasarýmý. Sahnede yalnýzca bir örneðe izin verir.
+ * Abstact yapýsý bu sýnýfý örneklendirilemez hale getirir.
  */
 public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
@@ -23,7 +21,6 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
         }
     }
 
-    // create reference in Awake()
     protected void Awake()
     {
         if (instance == null)
@@ -38,7 +35,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
         }
     }
 
-    // destroy the reference in OnDestroy()
+    // OnDestroy methodu otomatik olarak çaðrýlan bir methoddur. Eðer obje destroy edilirse örnek de yok edilir.
     protected void OnDestory()
     {
         if(this == instance)
@@ -47,6 +44,9 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
         }
     }
 
-    // Init will replace the functionality of Awake()
+    // Awake kullanmýyorsan Init kullanýlabilir? Anlamadým tam olarak bu noktayý.
+    /*
+     * Þöyle açýklýyor -> Awake methodu çaðrýldýktan sonra, özel baþlangýç iþlemlerimiz için Init methodunu kullanýyoruz. Bu farklý bir class içerisinde özelleþtirilebilir.
+     */
     protected virtual void Init(){  }
 }

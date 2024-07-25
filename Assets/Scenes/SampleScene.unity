@@ -153,6 +153,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 8353022528371919214, guid: 120f938652402b848b51453744bc3436, type: 3}
+  howManyTypes: 7
+  sprites:
+  - {fileID: 21300000, guid: 9b197c1f571c2874ab6924da241c0f43, type: 3}
+  - {fileID: 21300000, guid: 10dd7f4e6f0c4bf43951c2efd3de5d68, type: 3}
+  - {fileID: 21300000, guid: 091376b19967bd842b7d15100c90b929, type: 3}
+  - {fileID: 21300000, guid: da9e2230ff6940142be404f86608c7a7, type: 3}
+  - {fileID: 21300000, guid: c3596a714d941fc46a49f7267c2b8414, type: 3}
+  - {fileID: 21300000, guid: 6c784597c632d9d4792253518d62a0a1, type: 3}
+  - {fileID: 21300000, guid: 26550f806788ed64792f008eae80517e, type: 3}
+  colors:
+  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 0.06170094, g: 1, b: 0, a: 0}
+  - {r: 0, g: 1, b: 0.85501504, a: 0}
+  - {r: 0.00965023, g: 0, b: 1, a: 0}
+  - {r: 0.5744529, g: 0, b: 1, a: 0}
+  - {r: 1, g: 0, b: 0.93989515, a: 0}
+  - {r: 1, g: 0.71341777, b: 0, a: 0}
 --- !u!4 &60078192
 Transform:
   m_ObjectHideFlags: 0
@@ -238,7 +255,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &312501508
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -436,6 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ed26364bc3fe84aaf8a2f23c1a6a07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offscreenOffset: {x: 0, y: 9, z: 0}
 --- !u!4 &904170510
 Transform:
   m_ObjectHideFlags: 0
@@ -445,7 +463,7 @@ Transform:
   m_GameObject: {fileID: 904170508}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -582,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af2cb1bfb71f7745a55151e2e39c971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dimensions: {x: 0, y: -1}
+  dimensions: {x: 7, y: 7}
   gridOutput: {fileID: 312501507}
 --- !u!4 &1376527237
 Transform:

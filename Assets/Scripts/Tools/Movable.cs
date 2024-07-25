@@ -31,7 +31,7 @@ public class Movable : MonoBehaviour
     // coroutine move from current position to new position
     public IEnumerator MoveToPosition(Vector3 targetPosition)
     {
-        if(speed < 0)
+        if (speed < 0)
         {
             Debug.LogWarning("Speed must be a positive number.");
         }
@@ -57,6 +57,13 @@ public class Movable : MonoBehaviour
 
     private float Easing(float t)
     {
-        return t * t;
+        
+        float c1 = 1.70158f;
+        float c2 = c1 * 1.525f;
+
+        return t < 0.5f
+            ? (Mathf.Pow(t * 2, 2) * ((c2 + 1) * 2 * t - c2)) / 2
+            : (Mathf.Pow(t * 2 - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) +2) / 2;
+        
     }
 }
