@@ -5,13 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Cursor : Singleton<Cursor>
 {
+    private MatchableGrid grid;
+
     private SpriteRenderer spriteRenderer;
 
     private Matchable[] selected;
 
     [SerializeField]
     private Vector2Int verticalStrech = new Vector2Int(1, 2),
-    horizontalStrech = new Vector2Int(2, 1);
+                       horizontalStrech = new Vector2Int(2, 1);
 
     [SerializeField]
     private Vector3 halfUp = Vector3.up / 2,
@@ -25,6 +27,11 @@ public class Cursor : Singleton<Cursor>
         spriteRenderer.enabled = false;
 
         selected = new Matchable[2];
+    }
+
+    private void Start()
+    {
+        grid = (MatchableGrid) MatchableGrid.Instance;
     }
 
     public void SelectFirst(Matchable toSelect)
@@ -52,7 +59,7 @@ public class Cursor : Singleton<Cursor>
 
         if (SelectedAreAdjacent())
         {
-            print("Swapping matchables at positions : (" + selected[0].position.x + ", " + selected[0].position.y + " ) and ( " + selected[1].position.x + ", " + selected[1].position.y + ")");
+            StartCoroutine(grid.TrySwap(selected));
         }
         SelectFirst(null);
     }
